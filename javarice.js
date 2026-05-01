@@ -356,7 +356,7 @@ const achievementDefs = [
   },
   {
     id: 'secret-secret1',
-    name: 'Secret I',
+    name: 'Barely a Secret',
     desc: 'Find a secret somewhere in the Exposal Tab.',
     series: 'Secret series',
     seriesKey: 'secret series',
