@@ -27,7 +27,7 @@
         <div class="tab-strip" role="tablist" aria-label="Page tabs">
           <button class="browser-tab active" data-tab="tab-1" role="tab" aria-selected="true">
             <img class="tab-favicon" src="https://cdn-icons-png.flaticon.com/256/5968/5968517.png" alt="Exposal doc icon">
-            <span class="tab-title">Exposal.doc</span>
+            <span class="tab-title">Exposal doc</span>
             <span class="tab-close" data-close="tab-1" aria-label="close tab">×</span>
           </button>
           <button class="browser-tab" data-tab="tab-2" role="tab" aria-selected="false">
@@ -40,6 +40,12 @@
             <span class="tab-title">Achievements</span>
             <span class="tab-close" data-close="tab-3" aria-label="close tab">×</span>
           </button>
+          
+          <button class="browser-tab" data-tab="tab-4" role="tab" aria-selected="false">
+  <img class="tab-favicon" src="https://cdn-icons-png.flaticon.com/512/3064/3064197.png" alt="Vault icon">
+  <span class="tab-title">Vault</span>
+  <span class="tab-close" data-close="tab-4" aria-label="close tab">×</span>
+</button>
         </div>
       </div>
 
@@ -132,12 +138,13 @@
             <h2>best music of Yoshihide (made specifically for me) (DO NOT PLAY)</h2>
             <button onclick="playEvil()">Play at your own risk</button>
           </div>
+          
+          <center>
+        <button onclick="freeAchievement()">FREE ACHIEVEMENT</button>
+		</center>
         </section>
-
-        <center>
-          <button onclick="freeAchievement()">FREE ACHIEVEMENT</button>
-		    </center>
-
+        
+        
         <section id="tab-2" class="tab-panel" role="tabpanel">
           <div class="panel" id="tttPanel">
             <h2 style="margin-bottom:8px">Tic Tac Toe</h2>
@@ -194,12 +201,27 @@
         </section>
       </div>
     </div>
+    <section id="tab-4" class="tab-panel">
+  <div class="vault">
+    
+
+    <h1 class="vault-title">VAULT OF SECRETS</h1>
+
+    <h2 id="vaultText">I have heard about you</h2>
+
+    <div class="input-box">
+      <input id="vaultInput" placeholder="...">
+    </div>
+
+    <img id="keymaster" class="keymaster" src="https://images.steamusercontent.com/ugc/11920957432936582/8B9E19A5C03DF7BF508687600898A486CC5D850F/">
+
+  </div>
+</section>
 
     <footer>
       houseofkindness archives c(definetly copyrighted) definitely real doc trust
     </footer>
   </div>
-
 <script src="javarice.js"></script>
 
 </body>
