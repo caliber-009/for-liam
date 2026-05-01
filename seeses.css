@@ -608,3 +608,64 @@
   font-weight: normal;
   font-style: normal;
 }
+
+/* vault */
+
+  .vault {
+  text-align: center;
+  min-height: 80vh;
+  background: radial-gradient(circle, #6a007a, #2b0030);
+  padding: 40px 20px;
+  position: relative;
+  font-family: 'Pusab', sans-serif;
+}
+
+.vault-title {
+  color: #ffd84d;
+  font-size: 2.5rem;
+  text-shadow: 3px 3px 0 #000;
+}
+
+#vaultText {
+  margin-top: 20px;
+  font-size: 1.5rem;
+  color: #eee;
+  text-shadow: 2px 2px 0 #000;
+}
+
+.input-box input {
+  margin-top: 20px;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  background: #2a0033;
+  color: #fff;
+  font-family: 'Pusab';
+  text-align: center;
+}
+
+.keymaster {
+  width: 140px;
+  margin-top: 30px;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.keymaster.active {
+  transform: scale(1.2);
+}
+
+.door {
+  position: absolute;
+  right: 40px;
+  bottom: 20px;
+  width: 120px;
+}
+
+.back-btn {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  width: 60px;
+  cursor: pointer;
+}
