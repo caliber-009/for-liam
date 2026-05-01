@@ -94,7 +94,7 @@
       rare: 9,
       epic: 5,
       legendary: 2,
-      mythic: 1
+      mythic: 100
     };
     const roll = Math.random() * 100;
     let acc = 0;
@@ -334,7 +334,7 @@ const achievementDefs = [
     series: 'Luck series',
     seriesKey: 'luck series',
     rarity: 'epic',
-    icon: '🟡'
+    icon: 'https://images.steamusercontent.com/ugc/5102047032361210760/DCB3DEF7E208B637EA557F19557D3677053DD83F/?imw=637&imh=358&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true'
   },
   {
     id: 'luck-legendary',
@@ -343,7 +343,7 @@ const achievementDefs = [
     series: 'Luck series',
     seriesKey: 'luck series',
     rarity: 'legendary',
-    icon: '💎'
+    icon: 'https://media.tenor.com/jUrxPCkTJWUAAAAe/gem-diamond.png'
   },
   {
     id: 'luck-mythic',
@@ -352,7 +352,7 @@ const achievementDefs = [
     series: 'Luck series',
     seriesKey: 'luck series',
     rarity: 'mythical',
-    icon: '💚'
+    icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2uQisgWUYeYHcoRxakh3s8O5vEhbKfRGfpw&s'
   },
   {
     id: 'secret-secret1',
@@ -362,7 +362,16 @@ const achievementDefs = [
     seriesKey: 'secret series',
     rarity: 'common',
     icon: '?'
-  }
+  },
+  {
+    id: 'secret-secret2',
+    name: 'Semi-Secret',
+    desc: 'What is the elephant in the room?',
+    series: 'Secret series',
+    seriesKey: 'secret series',
+    rarity: 'uncommon',
+    icon: '??'
+  },
 ];
 
 const seriesIcons = {
@@ -424,8 +433,22 @@ function freeAchievement() {
 function showToast(ach) {
   const toast = document.createElement('div');
   toast.className = `toast ${achievementMeta[ach.rarity].colorClass}`;
-  toast.innerHTML = `
-  <div class="toast-icon">${ach.icon}</div>
+  const icon = ach.icon;
+
+const isImage =
+  typeof icon === 'string' &&
+  (icon.startsWith('http://') ||
+   icon.startsWith('https://') ||
+   icon.match(/\.(png|jpg|jpeg|webp|gif)$/));
+
+toast.innerHTML = `
+  <div class="toast-icon">
+    ${
+      isImage
+        ? `<img src="${icon}" alt="">`
+        : icon
+    }
+  </div>
   <div class="toast-copy">
     <div class="toast-title">Achievement Unlocked</div>
     <div class="toast-desc">${ach.name}</div>
@@ -491,7 +514,17 @@ function renderAchievementCard(id) {
   card.classList.toggle('locked', !unlocked);
 
   badge.className = `achievement-badge ${unlocked ? achievementMeta[ach.rarity].colorClass : 'locked'}`;
-  badge.textContent = unlocked ? ach.icon : '🔒';
+  const icon = ach.icon;
+
+const isImage =
+  typeof icon === 'string' &&
+  (icon.startsWith('http://') || icon.startsWith('https://') || icon.includes('.png') || icon.includes('.jpg') || icon.includes('.webp'));
+
+badge.innerHTML = unlocked
+  ? (isImage
+      ? `<img src="${icon}" alt="" />`
+      : `${icon}`)
+  : '🔒';
 
   card.querySelector('[data-name]').textContent = ach.name;
   card.querySelector('[data-desc]').textContent = `${ach.series} • ${ach.desc}`;
@@ -502,6 +535,22 @@ function renderAchievementCard(id) {
   seriesIconEl.alt = ach.series;
   seriesIconEl.style.display = iconSrc ? 'block' : 'none';
 }
+
+// secret
+
+// Semi-secret achievement
+const helpEl = document.getElementById("help");
+let helpClicks = 0;
+
+helpEl.addEventListener("click", () => {
+  if (helpClicks >= 3) return;
+
+  helpClicks++;
+
+  if (helpClicks >= 3) {
+    unlockAchievement('secret-secret2');
+  }
+});
 
 function renderAchievements() {
   const query = (achievementSearch?.value || '').trim().toLowerCase();
