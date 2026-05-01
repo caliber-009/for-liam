@@ -599,3 +599,12 @@
     .tab-strip{order:2; width:100%}
     .browser-tab{min-width:140px}
   }
+
+/* fonts */
+
+@font-face {
+  font-family: 'Pusab';
+  src: url('fonts/PUSAB___.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
