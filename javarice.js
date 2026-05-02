@@ -752,7 +752,7 @@ function spawnCoin() {
   coinSound.play().catch(err => console.log("Audio play blocked until user interacts with the page."));
 
   const coin = document.createElement("img");
-  coin.src = "Glubfub.gif";
+  coin.src = "ImagesAudiosandVideos/Glubfub.gif";
 
   coin.style.position = "fixed";
   coin.style.left = "50%";
