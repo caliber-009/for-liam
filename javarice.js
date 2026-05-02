@@ -334,7 +334,7 @@ const achievementDefs = [
     series: 'Luck series',
     seriesKey: 'luck series',
     rarity: 'epic',
-    icon: '/ImagesAudiosandVideos/Epic.jpeg'
+    icon: '/randompage/ImagesAudiosandVideos/Epic.jpeg'
   },
   {
     id: 'luck-legendary',
@@ -343,7 +343,7 @@ const achievementDefs = [
     series: 'Luck series',
     seriesKey: 'luck series',
     rarity: 'legendary',
-    icon: '/ImagesAudiosandVideos/Legendary.jpeg'
+    icon: '/randompage/ImagesAudiosandVideos/Legendary.jpeg'
   },
   {
     id: 'luck-mythic',
@@ -352,7 +352,7 @@ const achievementDefs = [
     series: 'Luck series',
     seriesKey: 'luck series',
     rarity: 'mythic',
-    icon: '/ImagesAudiosandVideos/Mythic.jpeg'
+    icon: '/randompage/ImagesAudiosandVideos/Mythic.jpeg'
   },
   {
     id: 'secret-secret1',
@@ -388,7 +388,7 @@ const achievementDefs = [
     series: 'Main web seriess',
     seriesKey: 'main web series',
     rarity: 'rare',
-    icon: '/ImagesAudiosandVideos/OurGeometryDash.jpeg'
+    icon: '/randompage/ImagesAudiosandVideos/OurGeometryDash.jpeg'
   },
   {
     id: 'coin',
@@ -397,7 +397,7 @@ const achievementDefs = [
     series: 'Main web seriess',
     seriesKey: 'main web series',
     rarity: 'uncommon',
-    icon: '/ImagesAudiosandVideos/Glubfub.gif'
+    icon: '/randompage/ImagesAudiosandVideos/Glubfub.gif'
   },
 ];
 
@@ -746,11 +746,11 @@ let gdProgress = new Set(
 let usedVaultCodes = new Set();
 
 function spawnCoin() {
-  const coinSound = new Audio("/ImagesAudiosandVideos/coin-collect-geometry-dash.mp3");
+  const coinSound = new Audio("/randompage/ImagesAudiosandVideos/coin-collect-geometry-dash.mp3");
   coinSound.play().catch(err => console.log("Audio play blocked until user interacts with the page."));
 
   const coin = document.createElement("img");
-  coin.src = "/ImagesAudiosandVideos/Glubfub.gif";
+  coin.src = "/randompage/ImagesAudiosandVideos/.gif";
 
   coin.style.position = "fixed";
   coin.style.left = "50%";
