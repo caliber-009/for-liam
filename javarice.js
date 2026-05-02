@@ -290,7 +290,6 @@ function playEvil() {
   resetBtn.addEventListener('click', resetGame);
 
 // Achievements
-// Achievements
 const achievementDefs = [
   {
     id: 'welcome',
@@ -371,7 +370,7 @@ const achievementDefs = [
     series: 'Secret series',
     seriesKey: 'secret series',
     rarity: 'uncommon',
-    icon: '??'
+    icon: '?'
   },
   {
     id: 'secret-secret3',
@@ -380,7 +379,7 @@ const achievementDefs = [
     series: 'Secret series',
     seriesKey: 'secret series',
     rarity: 'rare',
-    icon: '???'
+    icon: '?'
   },
   {
     id: 'gd',
@@ -399,7 +398,7 @@ const achievementDefs = [
     seriesKey: 'main web series',
     rarity: 'uncommon',
     icon: './ImagesAudiosandVideos/Glubfub.gif'
-  },
+  }
 ];
 
 const seriesIcons = {
@@ -411,16 +410,9 @@ const seriesIcons = {
 const achievementSearch = document.getElementById('achievementSearch');
 const seriesFilter = document.getElementById('seriesFilter');
 const achievementGrid = document.getElementById('achievementGrid');
-const ACHIEVEMENT_STORAGE_KEY = 'houseofkindness_achievements_v1';
+const toastStack = document.getElementById('toastStack');
 
-const rarityLabels = {
-  common: 'COMMON',
-  uncommon: 'UNCOMMON',
-  rare: 'RARE',
-  epic: 'EPIC',
-  legendary: 'LEGENDARY',
-  mythic: 'MYTHIC'
-};
+const ACHIEVEMENT_STORAGE_KEY = 'houseofkindness_achievements_v1';
 
 const achievementMeta = {
   common: { label: 'common', colorClass: 'common' },
@@ -458,9 +450,16 @@ function saveAchievements() {
 }
 
 function playUnlockSfx() {
-  const sfx = new Audio('https://www.image2url.com/r2/default/audio/1777542077123-29e89b0c-2257-4b14-a012-70da1fff2860.mp3');
+  const sfx = new Audio('./ImagesAudiosandVideos/coin-collect-geometry-dash.mp3');
   sfx.volume = 0.9;
   sfx.play().catch(() => {});
+}
+
+function makeIconHTML(icon, fallback = '🏆') {
+  if (isImageSrc(icon)) {
+    return `<img src="${icon}" alt="" onerror="this.replaceWith(document.createTextNode('${fallback}'))">`;
+  }
+  return icon || fallback;
 }
 
 function showToast(ach) {
@@ -468,32 +467,14 @@ function showToast(ach) {
 
   const toast = document.createElement('div');
   toast.className = `toast ${meta.colorClass}`;
-
-  const iconWrap = document.createElement('div');
-  iconWrap.className = 'toast-icon';
-
-  if (isImageSrc(ach.icon)) {
-    const img = document.createElement('img');
-    img.src = ach.icon;
-    img.alt = '';
-    img.onerror = () => {
-      iconWrap.textContent = '🏆';
-    };
-    iconWrap.appendChild(img);
-  } else {
-    iconWrap.textContent = ach.icon || '🏆';
-  }
-
-  const copy = document.createElement('div');
-  copy.className = 'toast-copy';
-  copy.innerHTML = `
-    <div class="toast-title">Achievement Unlocked</div>
-    <div class="toast-desc"></div>
+  toast.innerHTML = `
+    <div class="toast-icon">${makeIconHTML(ach.icon)}</div>
+    <div class="toast-copy">
+      <div class="toast-title">Achievement Unlocked</div>
+      <div class="toast-desc"></div>
+    </div>
   `;
-  copy.querySelector('.toast-desc').textContent = ach.name;
-
-  toast.appendChild(iconWrap);
-  toast.appendChild(copy);
+  toast.querySelector('.toast-desc').textContent = ach.name;
   toastStack.appendChild(toast);
 
   setTimeout(() => toast.remove(), 3900);
@@ -515,12 +496,18 @@ function unlockAchievement(id, silent = false) {
 }
 
 function unlockAchievementByAlert(rarity) {
-  if (rarity === 'common') unlockAchievement('luck-common');
-  if (rarity === 'uncommon') unlockAchievement('luck-uncommon');
-  if (rarity === 'rare') unlockAchievement('luck-rare');
-  if (rarity === 'epic') unlockAchievement('luck-epic');
-  if (rarity === 'legendary') unlockAchievement('luck-legendary');
-  if (rarity === 'mythic' || rarity === 'mythical') unlockAchievement('luck-mythic');
+  const map = {
+    common: 'luck-common',
+    uncommon: 'luck-uncommon',
+    rare: 'luck-rare',
+    epic: 'luck-epic',
+    legendary: 'luck-legendary',
+    mythic: 'luck-mythic',
+    mythical: 'luck-mythic'
+  };
+
+  const id = map[rarity];
+  if (id) unlockAchievement(id);
   renderAchievements();
 }
 
@@ -557,16 +544,7 @@ function renderAchievementCard(id) {
   card.classList.toggle('locked', !unlocked);
 
   badge.className = `achievement-badge ${unlocked ? meta.colorClass : 'locked'}`;
-
-  if (unlocked) {
-    if (isImageSrc(ach.icon)) {
-      badge.innerHTML = `<img src="${ach.icon}" alt="" onerror="this.replaceWith(document.createTextNode('🏆'))">`;
-    } else {
-      badge.textContent = ach.icon || '🏆';
-    }
-  } else {
-    badge.textContent = '🔒';
-  }
+  badge.innerHTML = unlocked ? makeIconHTML(ach.icon) : '🔒';
 
   card.querySelector('[data-name]').textContent = ach.name;
   card.querySelector('[data-desc]').textContent = `${ach.series} • ${ach.desc}`;
@@ -590,7 +568,6 @@ function renderAchievements() {
     const haystack = `${ach.name} ${ach.desc} ${ach.series} ${ach.rarity} ${ach.id}`.toLowerCase();
     const matchesQuery = !query || haystack.includes(query);
     const matchesSeries = series === 'all' || ach.seriesKey === series;
-
     card.classList.toggle('hidden', !(matchesQuery && matchesSeries));
   });
 }
@@ -602,7 +579,8 @@ loadAchievements();
 renderAchievements();
 
 if (unlockAchievement('welcome', true)) {
-  showToast(achievementDefs.find(a => a.id === 'welcome'));
+  const ach = achievementDefs.find(a => a.id === 'welcome');
+  if (ach) showToast(ach);
 }
 
 const responses = [
@@ -751,7 +729,6 @@ function spawnCoin() {
   const coin = document.createElement('img');
   coin.src = './ImagesAudiosandVideos/Glubfub.gif';
   coin.alt = '';
-
   coin.style.position = 'fixed';
   coin.style.left = '50%';
   coin.style.top = '50%';
@@ -768,10 +745,7 @@ function spawnCoin() {
       { transform: 'translate(-50%, -120%)' },
       { transform: 'translate(-50%, -50%)' }
     ],
-    {
-      duration: 300,
-      easing: 'ease-out'
-    }
+    { duration: 300, easing: 'ease-out' }
   );
 
   setTimeout(() => {
@@ -780,17 +754,11 @@ function spawnCoin() {
         { transform: 'translate(-50%, -50%)', opacity: 1 },
         { transform: 'translate(-50%, 200%)', opacity: 0 }
       ],
-      {
-        duration: 400,
-        easing: 'ease-in',
-        fill: 'forwards'
-      }
+      { duration: 400, easing: 'ease-in', fill: 'forwards' }
     );
   }, 300);
 
-  setTimeout(() => {
-    coin.remove();
-  }, 700);
+  setTimeout(() => coin.remove(), 700);
 }
 
 function incrementGDProgress(code) {
