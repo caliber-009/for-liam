@@ -260,7 +260,7 @@ function endGame(result) {
     scores.D++;
     drawsEl.textContent = scores.D;
     clearTTTTheme();
-    updateStatus('Draw. Nobody got the final cringe move.');
+    updateStatus('Draw. Nobody got the final aura move.');
   } else {
     scores[result]++;
     if (result === 'X') xWinsEl.textContent = scores.X;
