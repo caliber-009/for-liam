@@ -691,5 +691,61 @@
   cursor: pointer;
 }
 
+/* tab 6 stuff (the WHY) */
+
+#tab-6 .caliber-shell{
+  background:#000;
+  color:#00ff66;
+  min-height:70vh;
+  max-height:78vh;
+  overflow:auto;
+  font-family:Consolas, monospace;
+  border:1px solid rgba(0,255,102,0.35);
+  border-radius:18px;
+}
+
+#tab-6 .caliber-terminal{
+  padding:25px;
+  white-space:pre-wrap;
+  line-height:1.5;
+  font-size:1rem;
+  text-shadow:0 0 5px #00ff66;
+}
+
+#tab-6 .cursor{
+  display:inline-block;
+  width:10px;
+  animation:blink 0.8s infinite;
+}
+
+@keyframes blink{
+  50%{opacity:0;}
+}
+
+#tab-6 .caliber-shell::-webkit-scrollbar{
+  width:14px;
+}
+
+#tab-6 .caliber-shell::-webkit-scrollbar-track{
+  background:black;
+  border:1px solid #00ff66;
+  box-shadow:inset 0 0 10px #003311;
+}
+
+#tab-6 .caliber-shell::-webkit-scrollbar-thumb{
+  background:
+    repeating-linear-gradient(
+      180deg,
+      #00ff66 0px,
+      #00ff66 4px,
+      #00cc55 4px,
+      #00cc55 8px
+    );
+  border:1px solid #00ff66;
+  box-shadow:
+    0 0 10px #00ff66,
+    inset 0 0 5px #ffffff44;
+}
+
 /* secret */
 #help {cursor: help;}
