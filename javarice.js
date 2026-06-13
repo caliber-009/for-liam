@@ -1313,11 +1313,20 @@ function syncTab6Button() {
   tab6SwapBtn.textContent = tab6ShowingPreload ? "Show log" : "Show preload";
 }
 
+function revealTab6Button() {
+  if (!tab6SwapBtn) return;
+  tab6SwapBtn.hidden = false;
+  tab6SwapBtn.style.display = "";
+  tab6SwapBtn.disabled = false;
+  syncTab6Button();
+}
+
 function showTab6Log() {
   if (!tab6Terminal) return;
+
   tab6Terminal.innerHTML = tab6LogHTML || "";
   tab6ShowingPreload = false;
-  syncTab6Button();
+  revealTab6Button();
 }
 
 function showTab6Preload() {
@@ -1335,7 +1344,7 @@ function showTab6Preload() {
 
   tab6Terminal.replaceChildren(iframe);
   tab6ShowingPreload = true;
-  syncTab6Button();
+  revealTab6Button();
 }
 
 tab6SwapBtn?.addEventListener('click', () => {
@@ -1463,6 +1472,8 @@ async function runTab6() {
   const terminal = document.getElementById("terminal");
   if (!terminal) return;
 
+  if (tab6SwapBtn) tab6SwapBtn.hidden = true;
+
   await fakeLoadingTab6(terminal);
   terminal.innerHTML = "";
 
@@ -1473,7 +1484,10 @@ async function runTab6() {
 
   terminal.insertAdjacentText("beforeend", "\n");
   terminal.insertAdjacentText("beforeend", "█");
+
   tab6LogHTML = terminal.innerHTML;
   tab6State.finished = true;
+
+  revealTab6Button();
   showTab6Log();
 }
