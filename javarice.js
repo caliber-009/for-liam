@@ -847,6 +847,13 @@ keymaster?.addEventListener('click', () => {
 const tab6SwapBtn = document.getElementById('tab6SwapBtn');
 const tab6Terminal = document.getElementById('terminal');
 
+const tab6State = {
+  active: false,
+  started: false,
+  finished: false,
+  loadingDone: false
+};
+
 let tab6ShowingPreload = false;
 let tab6LogHTML = '';
 
@@ -865,7 +872,6 @@ const TAB6_PRELOAD_DOC = String.raw`<!DOCTYPE html>
       justify-content: center;
       align-items: center;
       z-index: 9999;
-
       opacity: 1;
       visibility: visible;
       transition: opacity 0.8s ease, visibility 0.8s ease;
@@ -1143,170 +1149,164 @@ const TAB6_PRELOAD_DOC = String.raw`<!DOCTYPE html>
   </style>
 </head>
 <body>
-<div class="preloader" id="preloader">
-  <img src="https://offscriptstore.com/cdn/shop/files/preloaderapp.gif" alt="Loading">
-</div>
-
-<div class="page-bg"></div>
-
-<main class="page-content">
-  <div class="profile-card">
-    <div class="profile-info">
-      <img class="profile-avatar"
-        src="https://ella.janitorai.com/avatars/2DnsU5WD2QkSlPuwLDCNS.webp?width=600"
-        alt="Avatar"/>
-      <div class="profile-meta">
-        <div class="profile-username">@caliber_009</div>
-        <div class="profile-followers">La Aventura Ha Terminado</div>
-        <div class="profile-badges">
-          <img src="https://static.wikia.nocookie.net/tdx/images/3/3f/Rank_150_%28Badge%29.png/revision/latest?cb=20240222091107" alt="Rank 150 Badge"/>
-          <img src="https://limbuscompany.wiki.gg/images/thumb/The_Pinky_Logo.png/300px-The_Pinky_Logo.png?78df98" alt="App Mop badge"/>
-        </div>
-        <div class="profile-title">
-          <u>Tiansu Star (Shén Xíng Tài Bǎo) of The Pinky</u>
-        </div>
-      </div>
-    </div>
-
-    <div class="profile-about">
-      <h1><i>hi</i></h1>
-      <p><i>hello</i></p>
-      <p>hello</p>
-      <p>juliet</p>
-    </div>
+  <div class="preloader" id="preloader">
+    <img src="https://offscriptstore.com/cdn/shop/files/preloaderapp.gif" alt="Loading">
   </div>
 
-  <div class="char-grid">
-    <div class="char-card">
-      <div class="char-inner">
-        <a href="/characters/25f38d7f-3b58-48fd-a39e-a87a654af356_character-jcc-trio-and-uzuki">
-          <div class="char-name">yikes</div>
-          <div class="char-img-wrap">
-            <div class="char-chats">
-              <svg class="icon-chat" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 14l-3-3h-7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v10"/>
-                <path d="M14 15v2a1 1 0 0 1-1 1H6l-3 3V11a1 1 0 0 1 1-1h2"/>
-              </svg>
-              ???
-            </div>
-            <img class="char-img"
-              src="https://i.scdn.co/image/ab67616d0000b27324d30bc281ed8329c0476662"
-              alt="Betrayal of Fear"/>
+  <div class="page-bg"></div>
+
+  <main class="page-content">
+    <div class="profile-card">
+      <div class="profile-info">
+        <img class="profile-avatar"
+          src="https://ella.janitorai.com/avatars/2DnsU5WD2QkSlPuwLDCNS.webp?width=600"
+          alt="Avatar"/>
+        <div class="profile-meta">
+          <div class="profile-username">@caliber_009</div>
+          <div class="profile-followers">La Aventura Ha Terminado</div>
+          <div class="profile-badges">
+            <img src="https://static.wikia.nocookie.net/tdx/images/3/3f/Rank_150_%28Badge%29.png/revision/latest?cb=20240222091107" alt="Rank 150 Badge"/>
+            <img src="https://limbuscompany.wiki.gg/images/thumb/The_Pinky_Logo.png/300px-The_Pinky_Logo.png?78df98" alt="App Mop badge"/>
           </div>
-        </a>
-        <a class="char-creator" href="/profiles/543bba71-89e3-4bee-bacd-9827537b4c88_profile-of-nilouplanet">@me</a>
-        <div class="char-desc">who is bro</div>
-        <div class="char-divider"></div>
-        <ul class="char-tags">
-          <li><span class="tag">Limitless technique</span></li>
-          <li><span class="tag">hi</span></li>
-          <li><span class="tag">hello</span></li>
-          <li><span class="tag">juliet</span></li>
-          <li><span class="tag">jane juliet</span></li>
-          <li><span class="tag">jane early</span></li>
-          <li><span class="tag">#tuff</span></li>
-          <li><span class="tag">#goodboy</span></li>
-          <li><span class="tag">#death senties</span></li>
-          <li><span class="tag">#sentry</span></li>
-          <li><span class="tag">#prometheus</span></li>
-        </ul>
-        <div class="char-kudos">2.6k kudos</div>
+          <div class="profile-title">
+            <u>Tiansu Star (Shén Xíng Tài Bǎo) of The Pinky</u>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-about">
+        <h1><i>hi</i></h1>
+        <p><i>hello</i></p>
+        <p>hello</p>
+        <p>juliet</p>
       </div>
     </div>
 
-    <div class="char-card">
-      <div class="char-inner">
-        <a href="/characters/8b58dfb0-a52b-493d-8a1d-28a40e2b5609_character-nagumo-yoichi">
-          <div class="char-name">Hello hello juliet</div>
-          <div class="char-img-wrap">
-            <div class="char-chats">
-              <svg class="icon-chat" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 14l-3-3h-7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v10"/>
-                <path d="M14 15v2a1 1 0 0 1-1 1H6l-3 3V11a1 1 0 0 1 1-1h2"/>
-              </svg>
-              2.8k
+    <div class="char-grid">
+      <div class="char-card">
+        <div class="char-inner">
+          <a href="/characters/25f38d7f-3b58-48fd-a39e-a87a654af356_character-jcc-trio-and-uzuki">
+            <div class="char-name">yikes</div>
+            <div class="char-img-wrap">
+              <div class="char-chats">
+                <svg class="icon-chat" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 14l-3-3h-7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v10"/>
+                  <path d="M14 15v2a1 1 0 0 1-1 1H6l-3 3V11a1 1 0 0 1 1-1h2"/>
+                </svg>
+                ???
+              </div>
+              <img class="char-img"
+                src="https://i.scdn.co/image/ab67616d0000b27324d30bc281ed8329c0476662"
+                alt="Betrayal of Fear"/>
             </div>
-            <img class="char-img"
-              src="https://i.ytimg.com/vi/eXv0tqBtv3E/hqdefault.jpg?sqp=-oaymwEmCOADEOgC8quKqQMa8AEB-AHeA4AC6AKKAgwIABABGE4gWChlMA8=&rs=AOn4CLATC8FcGVwGWCQIA40BXb0P6YGGJg"
-              alt="Betrayal of Fate"/>
-          </div>
-        </a>
-        <a class="char-creator" href="/profiles/543bba71-89e3-4bee-bacd-9827537b4c88_profile-of-nilouplanet">@67</a>
-        <div class="char-desc">dyk prometheus</div>
-        <div class="char-divider"></div>
-        <ul class="char-tags">
-          <li><span class="tag">Shrine technique</span></li>
-          <li><span class="tag">wont</span></li>
-          <li><span class="tag">you</span></li>
-          <li><span class="tag">stop</span></li>
-          <li><span class="tag">lmao</span></li>
-          <li><span class="tag">sikd</span></li>
-          <li><span class="tag">skid</span></li>
-          <li><span class="tag">pump</span></li>
-          <li><span class="tag">absolute mechamaru</span></li>
-          <li><span class="tag">dead center</span></li>
-        </ul>
-        <div class="char-kudos">2.0k kudos</div>
+          </a>
+          <a class="char-creator" href="/profiles/543bba71-89e3-4bee-bacd-9827537b4c88_profile-of-nilouplanet">@me</a>
+          <div class="char-desc">who is bro</div>
+          <div class="char-divider"></div>
+          <ul class="char-tags">
+            <li><span class="tag">Limitless technique</span></li>
+            <li><span class="tag">hi</span></li>
+            <li><span class="tag">hello</span></li>
+            <li><span class="tag">juliet</span></li>
+            <li><span class="tag">jane juliet</span></li>
+            <li><span class="tag">jane early</span></li>
+            <li><span class="tag">#tuff</span></li>
+            <li><span class="tag">#goodboy</span></li>
+            <li><span class="tag">#death senties</span></li>
+            <li><span class="tag">#sentry</span></li>
+            <li><span class="tag">#prometheus</span></li>
+          </ul>
+          <div class="char-kudos">2.6k kudos</div>
+        </div>
+      </div>
+
+      <div class="char-card">
+        <div class="char-inner">
+          <a href="/characters/8b58dfb0-a52b-493d-8a1d-28a40e2b5609_character-nagumo-yoichi">
+            <div class="char-name">Hello hello juliet</div>
+            <div class="char-img-wrap">
+              <div class="char-chats">
+                <svg class="icon-chat" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 14l-3-3h-7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v10"/>
+                  <path d="M14 15v2a1 1 0 0 1-1 1H6l-3 3V11a1 1 0 0 1 1-1h2"/>
+                </svg>
+                2.8k
+              </div>
+              <img class="char-img"
+                src="https://i.ytimg.com/vi/eXv0tqBtv3E/hqdefault.jpg?sqp=-oaymwEmCOADEOgC8quKqQMa8AEB-AHeA4AC6AKKAgwIABABGE4gWChlMA8=&rs=AOn4CLATC8FcGVwGWCQIA40BXb0P6YGGJg"
+                alt="Betrayal of Fate"/>
+            </div>
+          </a>
+          <a class="char-creator" href="/profiles/543bba71-89e3-4bee-bacd-9827537b4c88_profile-of-nilouplanet">@67</a>
+          <div class="char-desc">dyk prometheus</div>
+          <div class="char-divider"></div>
+          <ul class="char-tags">
+            <li><span class="tag">Shrine technique</span></li>
+            <li><span class="tag">wont</span></li>
+            <li><span class="tag">you</span></li>
+            <li><span class="tag">stop</span></li>
+            <li><span class="tag">lmao</span></li>
+            <li><span class="tag">sikd</span></li>
+            <li><span class="tag">skid</span></li>
+            <li><span class="tag">pump</span></li>
+            <li><span class="tag">absolute mechamaru</span></li>
+            <li><span class="tag">dead center</span></li>
+          </ul>
+          <div class="char-kudos">2.0k kudos</div>
+        </div>
+      </div>
+
+      <div class="char-card">
+        <div class="char-inner">
+          <a href="/characters/ee56eb3f-e358-4ac6-b285-ed4c9f662f70_character-goro-akechi">
+            <div class="char-name">Sparta</div>
+            <div class="char-img-wrap">
+              <div class="char-chats">
+                <svg class="icon-chat" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 14l-3-3h-7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v10"/>
+                  <path d="M14 15v2a1 1 0 0 1-1 1H6l-3 3V11a1 1 0 0 1 1-1h2"/>
+                </svg>
+                10.0k
+              </div>
+              <img class="char-img"
+                src="https://i.ytimg.com/vi/OPBECnDBiRQ/maxresdefault.jpg"
+                alt="Dead and Locked"/>
+            </div>
+          </a>
+          <a class="char-creator" href="/profiles/543bba71-89e3-4bee-bacd-9827537b4c88_profile-of-nilouplanet">@11</a>
+          <div class="char-desc">who is this</div>
+          <div class="char-divider"></div>
+          <ul class="char-tags">
+            <li><span class="tag">Strongest of Tomorrow</span></li>
+            <li><span class="tag">Strongest of Today</span></li>
+            <li><span class="tag">Strongest in History</span></li>
+            <li><span class="tag">Strongest of Outside</span></li>
+            <li><span class="tag">im listening to fire rn</span></li>
+            <li><span class="tag">what</span></li>
+            <li><span class="tag">who</span></li>
+            <li><span class="tag">#w</span></li>
+            <li><span class="tag">#2</span></li>
+            <li><span class="tag">#3</span></li>
+            <li><span class="tag">#imperishable valour</span></li>
+          </ul>
+          <div class="char-kudos">3.1k kudons</div>
+        </div>
       </div>
     </div>
+  </main>
 
-    <div class="char-card">
-      <div class="char-inner">
-        <a href="/characters/ee56eb3f-e358-4ac6-b285-ed4c9f662f70_character-goro-akechi">
-          <div class="char-name">Sparta</div>
-          <div class="char-img-wrap">
-            <div class="char-chats">
-              <svg class="icon-chat" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 14l-3-3h-7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v10"/>
-                <path d="M14 15v2a1 1 0 0 1-1 1H6l-3 3V11a1 1 0 0 1 1-1h2"/>
-              </svg>
-              10.0k
-            </div>
-            <img class="char-img"
-              src="https://i.ytimg.com/vi/OPBECnDBiRQ/maxresdefault.jpg"
-              alt="Dead and Locked"/>
-          </div>
-        </a>
-        <a class="char-creator" href="/profiles/543bba71-89e3-4bee-bacd-9827537b4c88_profile-of-nilouplanet">@11</a>
-        <div class="char-desc">who is this</div>
-        <div class="char-divider"></div>
-        <ul class="char-tags">
-          <li><span class="tag">Strongest of Tomorrow</span></li>
-          <li><span class="tag">Strongest of Today</span></li>
-          <li><span class="tag">Strongest in History</span></li>
-          <li><span class="tag">Strongest of Outside</span></li>
-          <li><span class="tag">im listening to fire rn</span></li>
-          <li><span class="tag">what</span></li>
-          <li><span class="tag">who</span></li>
-          <li><span class="tag">#w</span></li>
-          <li><span class="tag">#2</span></li>
-          <li><span class="tag">#3</span></li>
-          <li><span class="tag">#imperishable valour</span></li>
-        </ul>
-        <div class="char-kudos">3.1k kudons</div>
-      </div>
-    </div>
-  </div>
-</main>
+  <script>
+    window.addEventListener("load", () => {
+      const preloader = document.getElementById("preloader");
+      if (!preloader) return;
 
-<script>
-window.addEventListener("load", () => {
-  const preloader = document.getElementById("preloader");
-  if (!preloader) return;
-
-  setTimeout(() => {
-    preloader.classList.add("hidden");
-  }, 1500);
-});
-</scr` + `ipt>`;
-`;
-
-function escapeHTML(str) {
-  return String(str)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;");
-}
+      setTimeout(() => {
+        preloader.classList.add("hidden");
+      }, 1500);
+    });
+  </script>
+</body>
+</html>`;
 
 function syncTab6Button() {
   if (!tab6SwapBtn) return;
@@ -1322,23 +1322,28 @@ function showTab6Log() {
 
 function showTab6Preload() {
   if (!tab6Terminal) return;
-  tab6Terminal.innerHTML = `<pre class="tab6-preload">${escapeHTML(TAB6_PRELOAD_DOC)}</pre>`;
+
+  const iframe = document.createElement('iframe');
+  iframe.title = 'Tab 6 preview';
+  iframe.srcdoc = TAB6_PRELOAD_DOC;
+  iframe.style.width = '100%';
+  iframe.style.height = '70vh';
+  iframe.style.border = '0';
+  iframe.style.borderRadius = '12px';
+  iframe.style.display = 'block';
+  iframe.style.background = '#fff';
+
+  tab6Terminal.replaceChildren(iframe);
   tab6ShowingPreload = true;
   syncTab6Button();
 }
 
 tab6SwapBtn?.addEventListener('click', () => {
   if (!tab6State.finished) return;
+
   if (tab6ShowingPreload) showTab6Log();
   else showTab6Preload();
 });
-
-const tab6State = {
-  active: false,
-  started: false,
-  finished: false,
-  loadingDone: false
-};
 
 const tab6Lines = [
   () => `${getTimestamp()} > loading complete.`,
@@ -1395,6 +1400,7 @@ async function sleepResponsive(ms) {
     if (!tab6State.active) {
       await waitUntilTab6Active();
     }
+
     const chunk = Math.min(step, ms - elapsed);
     await sleep(chunk);
     elapsed += chunk;
@@ -1470,22 +1476,4 @@ async function runTab6() {
   tab6LogHTML = terminal.innerHTML;
   tab6State.finished = true;
   showTab6Log();
-}
-
-function openTab(id) {
-  panels.forEach(panel => panel.classList.toggle('active', panel.id === id));
-  tabButtons.forEach(btn => {
-    const active = btn.dataset.tab === id;
-    btn.classList.toggle('active', active);
-    btn.setAttribute('aria-selected', active ? 'true' : 'false');
-  });
-
-  tab6State.active = (id === 'tab-6');
-
-  if (id === 'tab-2') renderBoard();
-  if (id === 'tab-3') renderAchievements();
-
-  if (id === 'tab-6' && !tab6State.started) {
-    runTab6().catch(console.error);
-  }
 }
