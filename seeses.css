@@ -1,4 +1,4 @@
-  :root{
+    :root{
     --bg1:#0d0d0d;
     --bg2:#151515;
     --card:#181818;
@@ -745,6 +745,38 @@
   box-shadow:
     0 0 10px #00ff66,
     inset 0 0 5px #ffffff44;
+}
+
+#tab-6 .tab6-panel{
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#tab-6 .tab6-actions{
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 2px;
+}
+
+#tab-6 .tab6-btn{
+  background: #111;
+  color: #00ff66;
+  border: 1px solid rgba(0,255,102,0.45);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font: inherit;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0,255,102,0.18);
+}
+
+#tab-6 .tab6-btn:hover{
+  background: #181818;
+}
+
+#tab-6 .tab6-btn[hidden]{
+  display: none !important;
 }
 
 /* secret */
