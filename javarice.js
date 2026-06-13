@@ -1176,9 +1176,10 @@ const TAB6_PRELOAD_DOC = String.raw`<!DOCTYPE html>
 
       <div class="profile-about">
         <h1><i>"If nothing matters, then all the pain and guilt you feel for making nothing of your life goes away"</i></h1>
-        <p>-  Everything Everywhere All at Once</p>
-        <p>Caleb/Calibre/Lit</p>
-        <p>Just a dude who wants fun.</p>
+        <p   display: flex;
+             justify-content: flex-end;>-  Everything Everywhere All at Once</p>
+        <p><i><b><u>Caleb/Calibre/Lit</u></b></i></p>
+        <p>Just a dude who wants fun. This stuff's still WIP</p>
       </div>
     </div>
 
@@ -1230,7 +1231,7 @@ const TAB6_PRELOAD_DOC = String.raw`<!DOCTYPE html>
                   <path d="M21 14l-3-3h-7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v10"/>
                   <path d="M14 15v2a1 1 0 0 1-1 1H6l-3 3V11a1 1 0 0 1 1-1h2"/>
                 </svg>
-                2.8k
+                sum
               </div>
               <img class="char-img"
                 src="https://i.ytimg.com/vi/eXv0tqBtv3E/hqdefault.jpg?sqp=-oaymwEmCOADEOgC8quKqQMa8AEB-AHeA4AC6AKKAgwIABABGE4gWChlMA8=&rs=AOn4CLATC8FcGVwGWCQIA40BXb0P6YGGJg"
@@ -1266,7 +1267,7 @@ const TAB6_PRELOAD_DOC = String.raw`<!DOCTYPE html>
                   <path d="M21 14l-3-3h-7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v10"/>
                   <path d="M14 15v2a1 1 0 0 1-1 1H6l-3 3V11a1 1 0 0 1 1-1h2"/>
                 </svg>
-                10.0k
+                6767
               </div>
               <img class="char-img"
                 src="https://i.ytimg.com/vi/OPBECnDBiRQ/maxresdefault.jpg"
@@ -1380,7 +1381,7 @@ const tab6Lines = [
   () => ``,
   () => ``,
   () => `${getTimestamp()} > hiiii!!!`,
-  () => `${getTimestamp()} > ???`,
+  () => `${getTimestamp()} > mb this is still WIP`,
   () => `${getTimestamp()} > ???`,
   () => `${getTimestamp()} > ???`,
   () => `${getTimestamp()} > ???`,
