@@ -844,148 +844,9 @@ keymaster?.addEventListener('click', () => {
   }
 });
 
-const tab6State = {
-  active: false,
-  started: false,
-  finished: false,
-  loadingDone: false
-};
-
-const tab6Lines = [
-  () => `${getTimestamp()} > loading complete.`,
-  () => `${getTimestamp()} > user log detected: CALIBER`,
-  () => ``,
-  () => `${getTimestamp()} > is this thing recording?`,
-  () => ``,
-  () => ``,
-  () => ``,
-  () => `${getTimestamp()} >> affirmative.`,
-  () => `${getTimestamp()} > oh wait fr?`,
-  () => `${getTimestamp()} >> Yes. Commencing in...`,
-  () => ``,
-  () => ``,
-  () => ``,
-  () => `${getTimestamp()} >> 3...`,
-  () => ``,
-  () => `${getTimestamp()} >> 2...`,
-  () => ``,
-  () => `${getTimestamp()} >> 1...`,
-  () => ``,
-  () => ``,
-  () => ``,
-  () => ``,
-  () => ``,
-  () => ``,
-  () => `${getTimestamp()} > hiiii!!!`,
-  () => `${getTimestamp()} > ???`,
-  () => `${getTimestamp()} > ???`,
-  () => `${getTimestamp()} > ???`,
-  () => `${getTimestamp()} > ???`,
-  () => `${getTimestamp()} > ???`,
-  () => `${getTimestamp()} > ifevpocpvdckpo dscdn kcx cdmjfdcvndckvcdpkcxasvccxlk jdfbpvdfnjviefnpjnfpnfdijnidjcljdoijdfnov`,
-  () => `${getTimestamp()} > end of log.`,
-  () => ``,
-  () => `${getTimestamp()} >> well written, user-979934696. carry on, now.`
-];
-
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-async function waitUntilTab6Active() {
-  while (!tab6State.active) {
-    await sleep(60);
-  }
-}
-
-async function sleepResponsive(ms) {
-  const step = 40;
-  let elapsed = 0;
-
-  while (elapsed < ms) {
-    if (!tab6State.active) {
-      await waitUntilTab6Active();
-    }
-    const chunk = Math.min(step, ms - elapsed);
-    await sleep(chunk);
-    elapsed += chunk;
-  }
-}
-
-function getTimestamp() {
-  const now = new Date();
-
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, "0");
-  const day = String(now.getDate()).padStart(2, "0");
-
-  const hours = String(now.getHours()).padStart(2, "0");
-  const mins = String(now.getMinutes()).padStart(2, "0");
-  const secs = String(now.getSeconds()).padStart(2, "0");
-
-  return `[${year}-${month}-${day} ${hours}:${mins}:${secs}]`;
-}
-
-async function fakeLoadingTab6(terminal) {
-  let percent = 0;
-
-  while (percent < 100) {
-    if (!tab6State.active) {
-      await waitUntilTab6Active();
-    }
-
-    percent += Math.floor(Math.random() * 12) + 1;
-    if (percent > 100) percent = 100;
-
-    terminal.innerHTML =
-      `${getTimestamp()} > loading... ${percent}%<span class="cursor">█</span>`;
-
-    terminal.parentElement.scrollTop = terminal.parentElement.scrollHeight;
-    await sleepResponsive(Math.random() * 120 + 20);
-  }
-
-  await sleepResponsive(300);
-  tab6State.loadingDone = true;
-}
-
-async function typeWriterTab6(terminal, text) {
-  for (let i = 0; i < text.length; i++) {
-    if (!tab6State.active) {
-      await waitUntilTab6Active();
-    }
-
-    terminal.insertAdjacentText('beforeend', text.charAt(i));
-    terminal.parentElement.scrollTop = terminal.parentElement.scrollHeight;
-    await sleepResponsive(7);
-  }
-
-  terminal.insertAdjacentText('beforeend', "\n");
-  terminal.parentElement.scrollTop = terminal.parentElement.scrollHeight;
-}
-
-async function runTab6() {
-  if (tab6State.started) return;
-  tab6State.started = true;
-
-  const terminal = document.getElementById("terminal");
-  if (!terminal) return;
-
-  await fakeLoadingTab6(terminal);
-  terminal.innerHTML = "";
-
-  for (const line of tab6Lines) {
-    await typeWriterTab6(terminal, line());
-    await sleepResponsive(250);
-  }
-
-  terminal.insertAdjacentText("beforeend", "\n");
-  terminal.insertAdjacentText("beforeend", "█");
-  tab6LogHTML = terminal.innerHTML;
-  tab6State.finished = true;
-  syncTab6Button();
-}
-
 const tab6SwapBtn = document.getElementById('tab6SwapBtn');
+const tab6Terminal = document.getElementById('terminal');
+
 let tab6ShowingPreload = false;
 let tab6LogHTML = '';
 
@@ -996,27 +857,25 @@ const TAB6_PRELOAD_DOC = String.raw`<!DOCTYPE html>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>caliber_009</title>
   <style>
+    .preloader {
+      position: fixed;
+      inset: 0;
+      background: #FFFFFF;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
 
-.preloader {
-  position: fixed;
-  inset: 0;
-  background: #FFFFFF;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
 
-  opacity: 1;
-  visibility: visible;
-  transition: opacity 0.8s ease, visibility 0.8s ease;
-}
-
-.preloader.hidden {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-}
-
+    .preloader.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -1030,7 +889,6 @@ const TAB6_PRELOAD_DOC = String.raw`<!DOCTYPE html>
     img { display: block; max-width: 100%; }
     ul { list-style: none; }
 
-    /* ── page background ── */
     .page-bg {
       position: fixed;
       inset: 0;
@@ -1040,7 +898,6 @@ const TAB6_PRELOAD_DOC = String.raw`<!DOCTYPE html>
       z-index: -1;
     }
 
-    /* ── top bar ── */
     .top-bar {
       position: sticky;
       top: 0;
@@ -1067,7 +924,6 @@ const TAB6_PRELOAD_DOC = String.raw`<!DOCTYPE html>
       font-size: 1rem;
     }
 
-    /* ── page layout ── */
     .page-content {
       max-width: 900px;
       margin: 0 auto;
@@ -1077,7 +933,6 @@ const TAB6_PRELOAD_DOC = String.raw`<!DOCTYPE html>
       gap: 2rem;
     }
 
-    /* ── profile card ── */
     .profile-card {
       background: linear-gradient(140deg, #fff 0%, #fff 20%, rgba(255,255,255,.9) 90%, #fff 100%);
       border-radius: 10px;
@@ -1141,7 +996,6 @@ const TAB6_PRELOAD_DOC = String.raw`<!DOCTYPE html>
       font-size: 0.875rem;
     }
 
-    /* ── about-me ── */
     .profile-about {
       display: flex;
       flex-direction: column;
@@ -1149,7 +1003,6 @@ const TAB6_PRELOAD_DOC = String.raw`<!DOCTYPE html>
     }
     .profile-about h1 { font-size: 1.4rem; }
 
-    /* ── character grid ── */
     .char-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -1159,7 +1012,6 @@ const TAB6_PRELOAD_DOC = String.raw`<!DOCTYPE html>
       .char-grid { grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr)); }
     }
 
-    /* ── character card ── */
     .char-card {
       border-radius: 8px;
       position: relative;
@@ -1168,7 +1020,6 @@ const TAB6_PRELOAD_DOC = String.raw`<!DOCTYPE html>
       min-width: 0;
     }
 
-    /* gradient border via ::before */
     .char-card::before {
       content: '';
       position: absolute;
@@ -1200,7 +1051,6 @@ const TAB6_PRELOAD_DOC = String.raw`<!DOCTYPE html>
       padding: 0.5rem;
     }
 
-    /* image + chat-count wrapper */
     .char-img-wrap {
       position: relative;
       width: 100%;
@@ -1287,7 +1137,6 @@ const TAB6_PRELOAD_DOC = String.raw`<!DOCTYPE html>
       margin-top: auto;
     }
 
-    /* chat icon */
     .icon-chat {
       flex-shrink: 0;
     }
@@ -1301,8 +1150,6 @@ const TAB6_PRELOAD_DOC = String.raw`<!DOCTYPE html>
 <div class="page-bg"></div>
 
 <main class="page-content">
-
-  <!-- ── profile ── -->
   <div class="profile-card">
     <div class="profile-info">
       <img class="profile-avatar"
@@ -1329,10 +1176,7 @@ const TAB6_PRELOAD_DOC = String.raw`<!DOCTYPE html>
     </div>
   </div>
 
-
-
   <div class="char-grid">
-
     <div class="char-card">
       <div class="char-inner">
         <a href="/characters/25f38d7f-3b58-48fd-a39e-a87a654af356_character-jcc-trio-and-uzuki">
@@ -1442,7 +1286,6 @@ const TAB6_PRELOAD_DOC = String.raw`<!DOCTYPE html>
         <div class="char-kudos">3.1k kudons</div>
       </div>
     </div>
-
   </div>
 </main>
 
@@ -1455,4 +1298,194 @@ window.addEventListener("load", () => {
     preloader.classList.add("hidden");
   }, 1500);
 });
-${'</scr' + 'ipt>'}
+</scr` + `ipt>`;
+`;
+
+function escapeHTML(str) {
+  return String(str)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
+}
+
+function syncTab6Button() {
+  if (!tab6SwapBtn) return;
+  tab6SwapBtn.textContent = tab6ShowingPreload ? "Show log" : "Show preload";
+}
+
+function showTab6Log() {
+  if (!tab6Terminal) return;
+  tab6Terminal.innerHTML = tab6LogHTML || "";
+  tab6ShowingPreload = false;
+  syncTab6Button();
+}
+
+function showTab6Preload() {
+  if (!tab6Terminal) return;
+  tab6Terminal.innerHTML = `<pre class="tab6-preload">${escapeHTML(TAB6_PRELOAD_DOC)}</pre>`;
+  tab6ShowingPreload = true;
+  syncTab6Button();
+}
+
+tab6SwapBtn?.addEventListener('click', () => {
+  if (!tab6State.finished) return;
+  if (tab6ShowingPreload) showTab6Log();
+  else showTab6Preload();
+});
+
+const tab6State = {
+  active: false,
+  started: false,
+  finished: false,
+  loadingDone: false
+};
+
+const tab6Lines = [
+  () => `${getTimestamp()} > loading complete.`,
+  () => `${getTimestamp()} > user log detected: CALIBER`,
+  () => ``,
+  () => `${getTimestamp()} > is this thing recording?`,
+  () => ``,
+  () => ``,
+  () => ``,
+  () => `${getTimestamp()} >> affirmative.`,
+  () => `${getTimestamp()} > oh wait fr?`,
+  () => `${getTimestamp()} >> Yes. Commencing in...`,
+  () => ``,
+  () => ``,
+  () => ``,
+  () => `${getTimestamp()} >> 3...`,
+  () => ``,
+  () => `${getTimestamp()} >> 2...`,
+  () => ``,
+  () => `${getTimestamp()} >> 1...`,
+  () => ``,
+  () => ``,
+  () => ``,
+  () => ``,
+  () => ``,
+  () => ``,
+  () => `${getTimestamp()} > hiiii!!!`,
+  () => `${getTimestamp()} > ???`,
+  () => `${getTimestamp()} > ???`,
+  () => `${getTimestamp()} > ???`,
+  () => `${getTimestamp()} > ???`,
+  () => `${getTimestamp()} > ???`,
+  () => `${getTimestamp()} > ifevpocpvdckpo dscdn kcx cdmjfdcvndckvcdpkcxasvccxlk jdfbpvdfnjviefnpjnfpnfdijnidjcljdoijdfnov`,
+  () => `${getTimestamp()} > end of log.`,
+  () => ``,
+  () => `${getTimestamp()} >> well written, user-979934696. carry on, now.`
+];
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function waitUntilTab6Active() {
+  while (!tab6State.active) {
+    await sleep(60);
+  }
+}
+
+async function sleepResponsive(ms) {
+  const step = 40;
+  let elapsed = 0;
+
+  while (elapsed < ms) {
+    if (!tab6State.active) {
+      await waitUntilTab6Active();
+    }
+    const chunk = Math.min(step, ms - elapsed);
+    await sleep(chunk);
+    elapsed += chunk;
+  }
+}
+
+function getTimestamp() {
+  const now = new Date();
+
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+
+  const hours = String(now.getHours()).padStart(2, "0");
+  const mins = String(now.getMinutes()).padStart(2, "0");
+  const secs = String(now.getSeconds()).padStart(2, "0");
+
+  return `[${year}-${month}-${day} ${hours}:${mins}:${secs}]`;
+}
+
+async function fakeLoadingTab6(terminal) {
+  let percent = 0;
+
+  while (percent < 100) {
+    if (!tab6State.active) {
+      await waitUntilTab6Active();
+    }
+
+    percent += Math.floor(Math.random() * 12) + 1;
+    if (percent > 100) percent = 100;
+
+    terminal.innerHTML = `${getTimestamp()} > loading... ${percent}%<span class="cursor">█</span>`;
+    terminal.parentElement.scrollTop = terminal.parentElement.scrollHeight;
+    await sleepResponsive(Math.random() * 120 + 20);
+  }
+
+  await sleepResponsive(300);
+  tab6State.loadingDone = true;
+}
+
+async function typeWriterTab6(terminal, text) {
+  for (let i = 0; i < text.length; i++) {
+    if (!tab6State.active) {
+      await waitUntilTab6Active();
+    }
+
+    terminal.insertAdjacentText('beforeend', text.charAt(i));
+    terminal.parentElement.scrollTop = terminal.parentElement.scrollHeight;
+    await sleepResponsive(7);
+  }
+
+  terminal.insertAdjacentText('beforeend', "\n");
+  terminal.parentElement.scrollTop = terminal.parentElement.scrollHeight;
+}
+
+async function runTab6() {
+  if (tab6State.started) return;
+  tab6State.started = true;
+
+  const terminal = document.getElementById("terminal");
+  if (!terminal) return;
+
+  await fakeLoadingTab6(terminal);
+  terminal.innerHTML = "";
+
+  for (const line of tab6Lines) {
+    await typeWriterTab6(terminal, line());
+    await sleepResponsive(250);
+  }
+
+  terminal.insertAdjacentText("beforeend", "\n");
+  terminal.insertAdjacentText("beforeend", "█");
+  tab6LogHTML = terminal.innerHTML;
+  tab6State.finished = true;
+  showTab6Log();
+}
+
+function openTab(id) {
+  panels.forEach(panel => panel.classList.toggle('active', panel.id === id));
+  tabButtons.forEach(btn => {
+    const active = btn.dataset.tab === id;
+    btn.classList.toggle('active', active);
+    btn.setAttribute('aria-selected', active ? 'true' : 'false');
+  });
+
+  tab6State.active = (id === 'tab-6');
+
+  if (id === 'tab-2') renderBoard();
+  if (id === 'tab-3') renderAchievements();
+
+  if (id === 'tab-6' && !tab6State.started) {
+    runTab6().catch(console.error);
+  }
+}
