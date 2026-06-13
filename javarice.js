@@ -1175,10 +1175,10 @@ const TAB6_PRELOAD_DOC = String.raw`<!DOCTYPE html>
       </div>
 
       <div class="profile-about">
-        <h1><i>hi</i></h1>
-        <p><i>hello</i></p>
-        <p>hello</p>
-        <p>juliet</p>
+        <h1><i>"If nothing matters, then all the pain and guilt you feel for making nothing of your life goes away"</i></h1>
+        <p>-  Everything Everywhere All at Once</p>
+        <p>Caleb/Calibre/Lit</p>
+        <p>Just a dude who wants fun.</p>
       </div>
     </div>
 
